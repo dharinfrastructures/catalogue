@@ -81,6 +81,12 @@ window.location="login.html";
 <input type="text" class="form-control" placeholder="Flooring>Wood>Premium" id="newCategory">
 </div>
 
+<div class="col-md-5">
+<label class="form-label">Upload Image</label>
+<input type="file" class="form-control" onchange="preview(event)" id="imageInput">
+<img id="preview" class="img-fluid rounded mt-2 border" width="200px">
+</div>
+
 <div class="col-md-3">
 <label class="form-label">Price</label>
 <input type="text" class="form-control" placeholder="₹ 120" id="price">
@@ -98,14 +104,16 @@ window.location="login.html";
 </select>
 </div>
 
-<div class="col-md-5">
-<label class="form-label">Upload Image</label>
-<input type="file" class="form-control" onchange="preview(event)" id="imageInput">
-<img id="preview" class="img-fluid rounded mt-2 border">
-</div>
-
-<div class="col-md-4 d-flex align-items-end">
+<div class="col-md-4">
 <button class="btn btn-primary w-100" onclick="uploadItem()">Upload Item</button>
+<div class="progress mt-3" style="height:20px; display:none;" id="uploadProgressBox">
+  <div id="uploadProgress" 
+       class="progress-bar progress-bar-striped progress-bar-animated"
+       role="progressbar" 
+       style="width:0%">
+       0%
+  </div>
+</div>
 </div>
 
 </div>

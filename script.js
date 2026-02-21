@@ -1,6 +1,7 @@
 
 
 let materials=[];
+let allMaterials = [];
 let currentPage=1;
 const itemsPerPage=4;
 let currentCategory="all";
@@ -28,7 +29,8 @@ if(mainCategory.includes("fixture")) mainCategory="fixtures";
 if(mainCategory.includes("furniture")) mainCategory="furniture";
 if(mainCategory.includes("decor")) mainCategory="decor";
 
-let subCategory=parts.length>1?parts[parts.length-1]:"";
+let subCategory=parts.length>1?parts[parts.length-1]:mainCategory;
+
 
 let img=item.image||"";
 let fileId="";
@@ -49,11 +51,11 @@ subCategory:subCategory,
 price:item.price||0,
 unit:item.unit||"",
 image:img,
-description:item.title
+description:mainCategory
 };
 
 });
-
+allMaterials = [...materials];
 renderMaterials();
 renderPagination();
 
@@ -78,19 +80,27 @@ let paginatedItems=materials.slice(start,end);
 
 grid.innerHTML=paginatedItems.map(material=>`
 <div class="col-md-6 col-lg-4 col-xl-3">
-<div class="material-card">
-<div class="material-image">
-<img src="${material.image}" alt="${material.name}">
-</div>
-<div class="material-body">
-<h3 class="material-name">${material.name}</h3>
-<p class="material-description">${material.description}</p>
-<div class="material-price-row">
-<span class="material-price">₹${material.price} ${material.unit}</span>
-</div>
-</div>
-</div>
-</div>
+            <div class="material-card">
+                <div class="material-image">
+                    <img src="${material.image}" alt="${material.name}" loading="lazy">
+                    <div class="material-overlay"></div>
+                    <span class="material-category-badge">${material.subCategory}</span>
+                </div>
+                <div class="material-body">
+                    <h3 class="material-name">${material.name}</h3>
+                    <p class="material-description">${material.description}</p>
+                    <div class="material-price-row">
+                        <div>
+                            <span class="material-price">Rs ${material.price}</span>
+                            <span class="material-unit">${material.unit}</span>
+                        </div>
+                    </div>
+                   <!-- <button class="material-btn" onclick="viewMaterialDetails(${material.id})">
+                        <i class="fas fa-eye me-2"></i>View Details
+                    </button> -->
+                </div>
+            </div>
+        </div>
 `).join("");
 
 }
@@ -117,21 +127,29 @@ pagination.innerHTML=html;
 function changePage(page){
 currentPage=page;
 renderMaterials();
+renderPagination(); 
 window.scrollTo({top:document.getElementById("materialsGrid").offsetTop-100,behavior:"smooth"});
 }
 
 // ================= SEARCH =================
 document.getElementById("searchInput")?.addEventListener("input",function(){
 
-let q=this.value.toLowerCase();
+let q = this.value.toLowerCase().trim();
 
-materials=materials.filter(item=>
-item.name.toLowerCase().includes(q)||
-item.category.toLowerCase().includes(q)||
-item.price.toString().includes(q)
-);
+// if search empty → show all
+if(q === ""){
+    materials = [...allMaterials];   // restore original
+}else{
 
-currentPage=1;
+    materials = allMaterials.filter(item =>
+        (item.name && item.name.toLowerCase().includes(q)) ||
+        (item.category && item.category.toLowerCase().includes(q)) ||
+        (item.price && item.price.toString().includes(q))
+    );
+
+}
+
+currentPage = 1;
 renderMaterials();
 renderPagination();
 

@@ -22,7 +22,7 @@ function uploadItem(){
 
 let title=document.getElementById("title").value;
 let price=document.getElementById("price").value;
-let unit=document.getElementById("unit").value;   // ⭐ NEW
+let unit=document.getElementById("unit").value;
 let existing=document.getElementById("categorySelect").value;
 let newCat=document.getElementById("newCategory").value;
 let file=document.getElementById("imageInput").files[0];
@@ -46,6 +46,25 @@ fd.append("file",base64);
 fd.append("mime",file.type);
 fd.append("filename",file.name);
 
+// show progress
+let box=document.getElementById("uploadProgressBox");
+let bar=document.getElementById("uploadProgress");
+
+box.style.display="block";
+bar.style.width="0%";
+bar.innerHTML="0%";
+
+// smooth fake progress
+let percent=0;
+let interval=setInterval(()=>{
+percent+=5;
+if(percent<=90){
+bar.style.width=percent+"%";
+bar.innerHTML=percent+"%";
+}
+},500);
+
+// actual upload
 fetch(API,{
 method:"POST",
 body:fd
@@ -59,12 +78,25 @@ fetch(API+"?type=add"
 +"&categoryPath="+encodeURIComponent(categoryPath)
 +"&image="+encodeURIComponent(imgUrl)
 +"&price="+encodeURIComponent(price)
-+"&unit="+encodeURIComponent(unit)   // ⭐ NEW
++"&unit="+encodeURIComponent(unit)
 +"&token="+TOKEN)
 .then(res=>res.text())
 .then(()=>{
-alert("Uploaded");
+
+clearInterval(interval);
+
+bar.style.width="100%";
+bar.innerHTML="Upload Complete";
+
+setTimeout(()=>{
+box.style.display="none";
+bar.style.width="0%";
+bar.innerHTML="0%";
+},1200);
+
+alert("Uploaded Successfully");
 loadItemsAdmin();
+
 });
 
 });
@@ -73,7 +105,6 @@ loadItemsAdmin();
 
 reader.readAsDataURL(file);
 }
-
 
 
 // 📦 LOAD ITEMS FOR USER
