@@ -2,7 +2,6 @@ let allItems = [];
 
 // 🔐 LOGIN
 function login(){
-
 let email=document.getElementById("email").value;
 let pass=document.getElementById("pass").value;
 
@@ -15,16 +14,15 @@ window.location="dashboard.html";
 alert("Wrong login");
 }
 });
-
 }
 
-// 🖼 UPLOAD IMAGE + SAVE
-// document.getElementById("uploadBtn").onclick = uploadItem;
 
+// 🖼 UPLOAD IMAGE + SAVE
 function uploadItem(){
 
 let title=document.getElementById("title").value;
 let price=document.getElementById("price").value;
+let unit=document.getElementById("unit").value;   // ⭐ NEW
 let existing=document.getElementById("categorySelect").value;
 let newCat=document.getElementById("newCategory").value;
 let file=document.getElementById("imageInput").files[0];
@@ -61,11 +59,12 @@ fetch(API+"?type=add"
 +"&categoryPath="+encodeURIComponent(categoryPath)
 +"&image="+encodeURIComponent(imgUrl)
 +"&price="+encodeURIComponent(price)
++"&unit="+encodeURIComponent(unit)   // ⭐ NEW
 +"&token="+TOKEN)
 .then(res=>res.text())
 .then(()=>{
 alert("Uploaded");
-loadItems();
+loadItemsAdmin();
 });
 
 });
@@ -92,7 +91,7 @@ html+=`
 <h3>${item.title}</h3>
 <img src="${item.image}" width="200">
 ${item.categoryPath}<br>
-<p>Rs ${item.price}</p>
+<p>Rs ${item.price} ${item.unit || ""}</p>
 <hr>
 </div>
 `;
@@ -104,6 +103,8 @@ document.getElementById("gallery").innerHTML=html;
 
 }
 
+
+// 📂 LOAD CATEGORIES
 function loadCategories(){
 
 fetch(API+"?type=getCategories")
@@ -111,6 +112,8 @@ fetch(API+"?type=getCategories")
 .then(data=>{
 
 let sel=document.getElementById("categorySelect");
+if(!sel) return;
+
 sel.innerHTML="<option value=''>Select category</option>";
 
 data.forEach(cat=>{
@@ -125,32 +128,14 @@ sel.appendChild(opt);
 
 loadCategories();
 
+
+// 🧠 LOAD ITEMS ADMIN
 function loadItemsAdmin(){
 fetch(API+"?type=getData")
 .then(res=>res.json())
 .then(data=>{
 
 allItems = data; 
-let html="";
-
-data.reverse().forEach(item=>{
-
-html+=`
-<div class="col-6 col-md-4 col-lg-3">
-<div class="card shadow-sm h-100">
-<img src="${item.image}" class="card-img-top">
-<div class="card-body">
-<h6 class="card-title">${item.title}</h6>
-<p class="text-muted small">${item.categoryPath}</p>
-<b>₹ ${item.price}</b>
-<button class="btn btn-danger btn-sm w-100 mt-2" onclick="deleteItem('${item.id}')">Delete</button>
-</div>
-</div>
-</div>
-`;
-
-});
-
 displayItems(data);
 
 });
@@ -158,6 +143,8 @@ displayItems(data);
 
 loadItemsAdmin();
 
+
+// 🗑 DELETE
 function deleteItem(id){
 
 if(!confirm("Delete item?")) return;
@@ -170,6 +157,8 @@ loadItemsAdmin();
 
 }
 
+
+// 🔍 SEARCH
 function searchItems(){
 
 let q=document.getElementById("searchInput").value.toLowerCase();
@@ -177,7 +166,8 @@ let q=document.getElementById("searchInput").value.toLowerCase();
 let filtered = allItems.filter(item =>
 (item.title && item.title.toLowerCase().includes(q)) ||
 (item.categoryPath && item.categoryPath.toLowerCase().includes(q)) ||
-(item.price && item.price.toString().includes(q))
+(item.price && item.price.toString().includes(q)) ||
+(item.unit && item.unit.toLowerCase().includes(q))
 );
 
 displayItems(filtered);
@@ -185,6 +175,7 @@ displayItems(filtered);
 }
 
 
+// 🎨 DISPLAY ADMIN ITEMS
 function displayItems(data){
 
 let html="";
@@ -194,12 +185,13 @@ data.reverse().forEach(item=>{
 html+=`
 <div class="col-md-3 col-6 mb-3">
   <div class="card h-100 shadow-sm">
-    <img src="${item.image}" class="card-img-top">
+    <img src="${item.image}" class="card-img-top" style="max-height:300px; object-fit:cover;">
 
     <div class="card-body d-flex flex-column">
       <h6>${item.title}</h6>
       <p class="text-muted small">${item.categoryPath}</p>
-      <b>₹ ${item.price || ""}</b>
+
+      <b>₹ ${item.price || ""} ${item.unit || ""}</b>
 
       <button class="btn btn-danger btn-sm mt-auto"
       onclick="deleteItem('${item.id}')">
@@ -215,6 +207,8 @@ html+=`
 document.getElementById("itemsContainer").innerHTML=html;
 }
 
+
+// 🚪 LOGOUT
 function logout(){
 localStorage.removeItem("admin");
 window.location="login.html";

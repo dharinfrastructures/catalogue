@@ -44,9 +44,15 @@ fetch(API+"?type=login&email="+email+"&pass="+pass)
 
 if(data=="success"){
 
-localStorage.setItem("admin","logged_"+Date.now());
-window.location="dashboard.html";
+let session={
+token:"admin_"+Math.random().toString(36).substring(2),
+time:Date.now(),
+device:navigator.userAgent
+};
 
+localStorage.setItem("adminSession",JSON.stringify(session));
+
+window.location="dashboard.html";
 }else{
 document.getElementById("msg").innerText="Wrong login";
 }

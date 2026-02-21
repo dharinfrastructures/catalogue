@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Luxe Interiors - Premium Materials Catalogue</title>
+    <title>Dhar Infrastructure- Materials Catalogue</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,13 +20,27 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="preloader" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#ffffff;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+<div class="spinner-border text-dark" style="width:3rem;height:3rem;"></div>
+</div>
     
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top glass-nav">
         <div class="container">
             <a class="navbar-brand brand-elegant" href="#">
                 <i class="fas fa-gem me-2"></i>
-                <span>LUXE INTERIORS</span>
+                <span>Dhar Infrastructures</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -37,7 +51,7 @@
                     <li class="nav-item"><a class="nav-link" href="#catalogue">Catalogue</a></li>
                     <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link btn-quote" href="#contact">Get Quote</a></li>
+                    <li class="nav-item"><a class="nav-link btn-quote" href="login.html">Admin</a></li>
                 </ul>
             </div>
         </div>
@@ -50,7 +64,9 @@
         <div class="container hero-content">
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-8 mx-auto text-center">
-                    <span class="hero-badge" data-aos="fade-down">Premium Collection 2024</span>
+                    <span class="hero-badge" data-aos="fade-down">Premium Collection  <script>
+        document.write(new Date().getFullYear());
+    </script></span>
                     <h1 class="hero-title" data-aos="fade-up" data-aos-delay="200">
                         Elegance in Every
                         <span class="title-highlight">Detail</span>
@@ -177,6 +193,13 @@
             <div class="row g-4" id="materialsGrid">
                 <!-- Materials will be dynamically inserted here -->
             </div>
+            <div class="row mt-4">
+<div class="col-12 text-center">
+<nav>
+<ul class="pagination justify-content-center" id="pagination"></ul>
+</nav>
+</div>
+</div>
 
             <!-- No Results Message -->
             <div id="noResults" class="text-center py-5" style="display: none;">
@@ -246,11 +269,11 @@
                     <h2 class="cta-title">Ready to Transform Your Space?</h2>
                     <p class="cta-subtitle">Get in touch with our expert team for personalized recommendations and exclusive pricing on bulk orders.</p>
                     <div class="cta-buttons">
-                        <a href="tel:+15551234567" class="btn btn-primary-elegant me-3">
+                        <a href="tel:+917384002082" class="btn btn-primary-elegant me-3">
                             <i class="fas fa-phone-alt me-2"></i>
                             Call Us Now
                         </a>
-                        <a href="/cdn-cgi/l/email-protection#f990979f96b9958c819c90978d9c8b90968b8ad79a9694" class="btn btn-outline-light-elegant">
+                        <a href="mailto:dharinfrastructures@gmail.com" class="btn btn-outline-light-elegant">
                             <i class="fas fa-envelope me-2"></i>
                             Email Inquiry
                         </a>
@@ -299,14 +322,16 @@
                 <div class="col-lg-3">
                     <h5 class="footer-title">Contact Info</h5>
                     <ul class="footer-contact">
-                        <li><i class="fas fa-map-marker-alt"></i> 123 Design Street, NY 10001</li>
-                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
-                        <li><i class="fas fa-envelope"></i> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b5dcdbd3daf5d9c0cdd0dcdbc1d0c7dcdac7c69bd6dad8">[email&#160;protected]</a></li>
+                        <li><i class="fas fa-map-marker-alt"></i> Pearl Vista, Pratappur Road, Raghunathganj, Murshidabad, 742225</li>
+                        <li><i class="fas fa-phone"></i><a href="tel:+917384002082">+91 7384002082</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:dharinfrastructures@gmail.com">dharinfrastructures@gmail.com</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Luxe Interiors. All rights reserved. | Designed with <i class="fas fa-heart"></i> for Excellence</p>
+                <p>&copy; <script>
+        document.write(new Date().getFullYear());
+    </script> Dhar Infrastructures. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -317,9 +342,10 @@
     </button>
 
     <!-- Bootstrap JS -->
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
     <!-- Custom JS -->
+     <script src="api.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

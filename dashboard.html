@@ -6,20 +6,29 @@
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
-        let session=localStorage.getItem("admin");
 
-if(!session || !session.startsWith("logged_")){
+let s=localStorage.getItem("adminSession");
+
+if(!s){
 window.location="login.html";
 }
-let loginTime=parseInt(session?.split("_")[1]||0);
+
+let session=JSON.parse(s);
+
+// device check
+if(session.device !== navigator.userAgent){
+localStorage.removeItem("adminSession");
+window.location="login.html";
+}
+
+// expiry 6 hours
 let now=Date.now();
-
-if(now-loginTime > 86400000){ 
-localStorage.removeItem("admin");
+if(now-session.time > 21600000){
+localStorage.removeItem("adminSession");
 window.location="login.html";
 }
 
-   </script>
+</script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -75,6 +84,18 @@ window.location="login.html";
 <div class="col-md-3">
 <label class="form-label">Price</label>
 <input type="text" class="form-control" placeholder="₹ 120" id="price">
+</div>
+
+<div class="col-md-3">
+  <label class="form-label">Unit</label>
+  <select id="unit" class="form-select">
+<option value="">Unit</option>
+<option value="/sqft">/sqft</option>
+<option value="/roll">/roll</option>
+<option value="/piece">/piece</option>
+<option value="/box">/box</option>
+<option value="/meter">/meter</option>
+</select>
 </div>
 
 <div class="col-md-5">
