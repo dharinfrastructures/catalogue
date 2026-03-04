@@ -922,6 +922,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: rgba(255,255,255,0.6);
   background-blend-mode: lighten;
 }
+.about-image-wrapper img{
+    min-height: 500px;
+    object-fit: cover;
+}
 /* ===================================
    RESPONSIVE DESIGN
    =================================== */
